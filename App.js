@@ -6,41 +6,71 @@ import Login from "./screens/Login";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Bbcc from "./screens/Bbcc";
 import HappyWorks from "./screens/HappyWorks";
+import EnterOtp from "./screens/EnterOtp";
+import { AppProvider } from "./AppContext";
+import { useAppContext } from "./AppContext";
+import Header from "./components/Header";
+import { Text } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 function WelcomeScreen() {
+  const { userData } = useAppContext();
+
   return (
     <>
-      <HomeScreen />
+      <Header />
+      <Text>User Data: {userData ? userData.name : "Guest"}</Text>
     </>
   );
 }
 
-function SafeApp() {
+function AppNavigator() {
+  const { userData } = useAppContext();
+  console.log(userData);
+
+  // Define the screens you want to render
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Bbcc"
-          component={Bbcc}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HappyWorks"
-          component={HappyWorks}
-          options={{ headerShown: false }}
-        />
+        {userData ? (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Bbcc"
+              component={Bbcc}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="HappyWorks"
+              component={HappyWorks}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Welcome"
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="Login"
+              component={Login}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="EnterOtp"
+              component={EnterOtp}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -49,7 +79,9 @@ function SafeApp() {
 function App() {
   return (
     <SafeAreaProvider>
-      <SafeApp />
+      <AppProvider>
+        <AppNavigator />
+      </AppProvider>
     </SafeAreaProvider>
   );
 }

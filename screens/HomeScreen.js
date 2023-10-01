@@ -1,5 +1,5 @@
-import React from "react";
-import { Platform, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect } from "react";
+import { Platform, StyleSheet, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc"; // Assuming you have this module
 import Header from "../components/Header";
@@ -7,8 +7,14 @@ import Categories from "../components/Categories";
 import Featured from "../components/Featured";
 import Popular from "../components/Popular";
 import Slides from "../components/Slides";
+import { useAppContext } from "../AppContext";
 
 export default function HomeScreen() {
+  const { userData } = useAppContext(); // Access user data from the global state
+  // useEffect(() => {
+  //   console.log("User Data:", userData);
+  // }, [userData]);
+
   return (
     <>
       {Platform.OS === "web" ? (
@@ -19,6 +25,7 @@ export default function HomeScreen() {
 
         <SafeAreaView style={tw`bg-gray-200`}>
           <ScrollView>
+            <Text>{userData}</Text>
             <Header />
             <Categories />
             <Slides />
