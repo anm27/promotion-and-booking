@@ -1,3 +1,4 @@
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,7 +8,6 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
 import Header from "../components/Header";
 import Categories from "../components/Categories";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,7 +15,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import tw from "twrnc";
 
 const Bbcc = () => {
-  // const [showDatePicker, setShowDatePicker] = useState(false);
   const [activeDatePickerHall, setActiveDatePickerHall] = useState(null);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -24,69 +23,14 @@ const Bbcc = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hallDates, setHallDates] = useState({});
 
-  const handleNext = () => {
-    const newPosition = (currentSlide + 1) * screenWidth;
-    if (newPosition < screenWidth * data.length) {
-      scrollRef.current.scrollTo({ x: newPosition, animated: true });
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-
-  const handlePrev = () => {
-    const newPosition = (currentSlide - 1) * screenWidth;
-    if (newPosition >= 0) {
-      scrollRef.current.scrollTo({ x: newPosition, animated: true });
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
-
-  const getPriceForDate = (date, rent) => {
-    const day = date.getDay();
-    rent = Number(rent); // Convert to number if not already
-
-    // Assuming Saturday and Sunday have a different price
-    if (day === 0 || day === 6) {
-      return rent * 1.2;
-    } else {
-      return rent;
-    }
-  };
-
-  const [price, setPrice] = useState(getPriceForDate(selectedDate));
-
-  const onDateChange = (itemId, event, newDate) => {
-    setShowDatePicker(Platform.OS === "ios");
-
-    if (Platform.OS === "android") {
-      setShowDatePicker(false);
-    }
-
-    if (newDate) {
-      setSelectedDate(newDate);
-
-      const updatedHallDates = { ...hallDates };
-      updatedHallDates[itemId] = {
-        date: newDate,
-        price: getPriceForDate(
-          newDate,
-          data.find((item) => item.id === itemId)?.rent || 0 // Ensure rent is defined
-        ),
-      };
-      setHallDates(updatedHallDates);
-    }
-  };
-
   const formattedDate = `${selectedDate.getDate()}/${
     selectedDate.getMonth() + 1
   }/${selectedDate.getFullYear()}`;
 
-  // Get today's date and time
-  const today = new Date();
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchData(); // Fetch data when the component mounts
   }, []);
 
   const fetchData = async () => {
@@ -97,9 +41,55 @@ const Bbcc = () => {
 
       // Continue with JSON parsing if the responseText looks like JSON
       let jsonData = JSON.parse(responseText);
-      setData(jsonData);
+      setData(jsonData); // Set the data state
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleNext = () => {
+    const newPosition = (currentSlide + 1) * screenWidth;
+    if (newPosition < screenWidth * data.length) {
+      scrollRef.current.scrollTo({ x: newPosition, animated: true });
+      setCurrentSlide(currentSlide + 1);
+    }
+    setActiveDatePickerHall(null);
+  };
+
+  const handlePrev = () => {
+    const newPosition = (currentSlide - 1) * screenWidth;
+    if (newPosition >= 0) {
+      scrollRef.current.scrollTo({ x: newPosition, animated: true });
+      setCurrentSlide(currentSlide - 1);
+    }
+    setActiveDatePickerHall(null);
+  };
+
+  const getPriceForDate = (date, rent) => {
+    const day = date.getDay();
+    rent = Number(rent); // Convert to number if not already
+
+    // Exclude weekends (Saturday and Sunday)
+    if (day === 0 || day === 6) {
+      const nextMonday = new Date(date);
+      nextMonday.setDate(date.getDate() + (8 - day)); // Calculate next Monday
+      return getPriceForDate(nextMonday, rent);
+    } else {
+      return rent;
+    }
+  };
+
+  const onDateChange = (itemId, event, newDate) => {
+    if (Platform.OS === "android" && event.type === "set") {
+      const updatedHallDates = { ...hallDates };
+      updatedHallDates[itemId] = {
+        date: newDate,
+        price: getPriceForDate(
+          newDate,
+          data.find((item) => item.id === itemId)?.rent || 0 // Ensure rent is defined
+        ),
+      };
+      setHallDates(updatedHallDates);
     }
   };
 
@@ -218,7 +208,7 @@ const Bbcc = () => {
           {activeDatePickerHall !== null && (
             <DateTimePicker
               testID="dateTimePicker"
-              value={selectedDate}
+              value={hallDates[activeDatePickerHall]?.date || selectedDate}
               mode="date"
               display="default"
               onChange={(event, date) =>

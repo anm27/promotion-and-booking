@@ -12,10 +12,10 @@ const Categories = () => {
           <View style={tw`rounded-md bg-green-700 py-3 px-3`}>
             <Image
               source={require("../img/auditorium.png")}
-              style={tw`m-auto w-11 h-11 w-11 h-11`}
+              style={tw`m-auto w-7 h-7 w-7 h-7`}
               // Aap yahaan image ke size adjust kar sakte hain
             />
-            <Text style={tw`text-white pt-2 font-bold w-22 text-center`}>
+            <Text style={tw`text-white pt-2 font-bold text-center text-xs`}>
               Auditoriums
             </Text>
           </View>
@@ -24,11 +24,11 @@ const Categories = () => {
           <View style={tw`rounded-md bg-green-700 py-3 px-3`}>
             <Image
               source={require("../img/hotel.png")}
-              style={tw`m-auto w-11 h-11`}
+              style={tw`m-auto w-7 h-7`}
               // Aap yahaan image ke size adjust kar sakte hain
             />
-            <Text style={tw`text-white pt-2 font-bold w-22 text-center`}>
-              Rooms
+            <Text style={tw`text-white pt-2 font-bold text-center text-xs`}>
+              Accomodations
             </Text>
           </View>
         </TouchableOpacity>
@@ -39,10 +39,10 @@ const Categories = () => {
           <View style={tw`rounded-md bg-green-700 py-3 px-3`}>
             <Image
               source={require("../img/workspace.png")}
-              style={tw`m-auto w-11 h-11`}
+              style={tw`m-auto w-7 h-7`}
               // Aap yahaan image ke size adjust kar sakte hain
             />
-            <Text style={tw`text-white pt-2 font-bold w-22 text-center`}>
+            <Text style={tw`text-white pt-2 font-bold text-center text-xs`}>
               Happy Works
             </Text>
           </View>
@@ -51,10 +51,10 @@ const Categories = () => {
           <View style={tw`rounded-md bg-green-700 py-3 px-3`}>
             <Image
               source={require("../img/banquet.png")}
-              style={tw`m-auto w-11 h-11`}
+              style={tw`m-auto w-7 h-7`}
               // Aap yahaan image ke size adjust kar sakte hain
             />
-            <Text style={tw`text-white pt-2 font-bold w-22 text-center`}>
+            <Text style={tw`text-white pt-2 font-bold text-center text-xs`}>
               Banquets
             </Text>
           </View>

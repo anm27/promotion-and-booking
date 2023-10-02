@@ -1,22 +1,32 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+// import { useAppContext } from "../AppContext";
+import { useNavigation } from "@react-navigation/native";
 
 const Header = () => {
+  // const authCtx = useAppContext();
+  const navigation = useNavigation();
   return (
     <>
-      <View style={tw`flex flex-row justify-between px-5 py-5 items-center`}>
+      <View style={tw`flex flex-row justify-between px-5 pb-5 items-center`}>
         <View>
           <MaterialIcons name="menu-open" size={45} color="green" />
         </View>
         <View>
-          <MaterialCommunityIcons
-            name="face-man-profile"
-            size={45}
-            color="green"
-          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("UserProfile");
+            }}
+          >
+            <MaterialCommunityIcons
+              name="face-man-profile"
+              size={45}
+              color="green"
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </>

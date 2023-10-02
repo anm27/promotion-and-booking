@@ -25,7 +25,7 @@ export default function HomeScreen() {
 
         <SafeAreaView style={tw`bg-gray-200`}>
           <ScrollView>
-            <Text>{userData}</Text>
+            {/* <Text>{userData}</Text> */}
             <Header />
             <Categories />
             <Slides />

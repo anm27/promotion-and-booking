@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,8 +12,12 @@ import { AppProvider } from "./AppContext";
 import { useAppContext } from "./AppContext";
 import Header from "./components/Header";
 import { Text } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import UserProfile from "./screens/UserProfile";
 
 const Stack = createNativeStackNavigator();
+
+const Drawer = createDrawerNavigator();
 
 function WelcomeScreen() {
   const { userData } = useAppContext();
@@ -21,6 +26,22 @@ function WelcomeScreen() {
     <>
       <Header />
       <Text>User Data: {userData ? userData.name : "Guest"}</Text>
+    </>
+  );
+}
+
+function ProfileNavigator() {
+  // const { userData } = useAppContext();
+  return (
+    <>
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="Profile"
+          component={UserProfile}
+          options={{ headerShown: false }}
+        />
+        {/* You can add more Drawer.Screen components as needed */}
+      </Drawer.Navigator>
     </>
   );
 }
@@ -56,6 +77,11 @@ function AppNavigator() {
               component={WelcomeScreen}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="UserProfile"
+              component={ProfileNavigator}
+              options={{ headerShown: false }}
+            />
           </>
         ) : (
           <>
@@ -72,6 +98,7 @@ function AppNavigator() {
           </>
         )}
       </Stack.Navigator>
+      {/* <ProfileNavigator /> */}
     </NavigationContainer>
   );
 }

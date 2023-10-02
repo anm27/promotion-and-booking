@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 
-const sendOTP = async (to, otp) => {
+const sendOTP = async (to, otp, from) => {
   try {
     // Send the OTP using Twilio's REST API
     const authorizationHeader = `Basic ${encode(
@@ -29,7 +29,7 @@ const sendOTP = async (to, otp) => {
         },
         body: `To=${encodeURIComponent(
           to
-        )}&From=+15124026795&Body=Your OTP is: ${otp}`,
+        )}&From=${from}&Body=Your OTP is: ${otp}`,
       }
     );
 
@@ -40,7 +40,9 @@ const sendOTP = async (to, otp) => {
       // If verification is successful, navigate to the home screen
       return true;
     } else {
-      console.error("Error sending OTP:", response.statusText);
+      console.error("Error sending OTP:", response.status, response.statusText);
+      const responseBody = await response.text();
+      console.error("Response Body:", responseBody);
       // Display an error message to the user
       return false;
     }
@@ -62,16 +64,18 @@ const Login = () => {
     // Generate a random OTP (you can customize this)
     const otpValue = Math.floor(100000 + Math.random() * 900000).toString();
     console.log(otpValue);
-    const userPhoneNumber = "+919875437382"; // Replace with the user's phone number
+    const userPhoneNumber = "+91" + user; // Replace with the user's phone number
 
-    const success = await sendOTP(userPhoneNumber, otpValue);
+    const fromPhoneNumber = "+15124026795";
+
+    const success = await sendOTP(userPhoneNumber, otpValue, fromPhoneNumber);
 
     if (success) {
       // If verification is successful, navigate to the home screen
       navigation.navigate("EnterOtp", { otpValue, user });
     } else {
       // Display an error message to the user
-      console.error("Login failed");
+      console.error("Login failed", `+91${user}`);
     }
   };
 
