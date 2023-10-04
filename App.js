@@ -14,6 +14,7 @@ import Header from "./components/Header";
 import { Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import UserProfile from "./screens/UserProfile";
+import Menu from "./screens/Menu";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,22 @@ function ProfileNavigator() {
         <Drawer.Screen
           name="Profile"
           component={UserProfile}
+          options={{ headerShown: false }}
+        />
+        {/* You can add more Drawer.Screen components as needed */}
+      </Drawer.Navigator>
+    </>
+  );
+}
+
+function MenuNavigator() {
+  // const { userData } = useAppContext();
+  return (
+    <>
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="MenuUser"
+          component={Menu}
           options={{ headerShown: false }}
         />
         {/* You can add more Drawer.Screen components as needed */}
@@ -80,6 +97,11 @@ function AppNavigator() {
             <Stack.Screen
               name="UserProfile"
               component={ProfileNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="UserMenu"
+              component={MenuNavigator}
               options={{ headerShown: false }}
             />
           </>

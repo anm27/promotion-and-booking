@@ -48,6 +48,8 @@ const HappyWorks = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [checkoutDate, setCheckoutDate] = useState(new Date());
 
+  const [propertyLocation, setPropertyLocation] = useState("");
+
   const [formattedDateTime, setFormattedDateTime] = useState(
     new Date() // Initialize with the current date and time
   );
@@ -259,7 +261,7 @@ const HappyWorks = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            property: "Happy Works 2", // Change this to your property data
+            property: propertyLocation, // Change this to your property data
             date_from: formattedDate.toISOString(),
             date_to: formattedDateTo.toISOString(),
             meet_in_time: checkInTime,
@@ -369,6 +371,7 @@ const HappyWorks = () => {
                   <SelectDropdown
                     data={locations}
                     onSelect={(selectedItem, index) => {
+                      setPropertyLocation(selectedItem);
                       console.log(selectedItem, index);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {

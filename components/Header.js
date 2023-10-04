@@ -12,9 +12,13 @@ const Header = () => {
   return (
     <>
       <View style={tw`flex flex-row justify-between px-5 pb-5 items-center`}>
-        <View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("UserMenu");
+          }}
+        >
           <MaterialIcons name="menu-open" size={45} color="green" />
-        </View>
+        </TouchableOpacity>
         <View>
           <TouchableOpacity
             onPress={() => {
