@@ -8,7 +8,12 @@ const Categories = () => {
   return (
     <>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <TouchableOpacity style={tw`mx-5`}>
+        <TouchableOpacity
+          style={tw`mx-5`}
+          onPress={() => {
+            navigation.navigate("Auditoriums");
+          }}
+        >
           <View style={tw`rounded-md bg-green-700 py-3 px-3`}>
             <Image
               source={require("../img/auditorium.png")}

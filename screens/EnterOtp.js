@@ -99,7 +99,7 @@ const EnterOtp = () => {
             />
 
             <TouchableOpacity
-              style={tw`bg-cyan-700 p-3 rounded-md`}
+              style={tw`bg-cyan-600 p-3 rounded-md`}
               onPress={loginUser}
             >
               <Text style={tw`text-xl text-center text-white`}>Login</Text>

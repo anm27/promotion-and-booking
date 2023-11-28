@@ -17,7 +17,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useNavigation } from "@react-navigation/native";
 
-const Bbcc = () => {
+const Dda = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [selectedHallIndex, setSelectedHallIndex] = useState(null);
@@ -32,7 +32,7 @@ const Bbcc = () => {
 
   // console.log("Property Name: ", propertyName);
 
-  const propertyLocation = "BBCC " + propertyName;
+  const propertyLocation = "Dda " + propertyName;
 
   console.log("Property Loc: ", propertyLocation);
 
@@ -551,4 +551,4 @@ const Bbcc = () => {
   );
 };
 
-export default Bbcc;
+export default Dda;

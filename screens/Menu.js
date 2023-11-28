@@ -75,6 +75,9 @@ const Menu = () => {
       <View>
         <TouchableOpacity
           style={tw`mx-6 my-2 shadow-lg py-2 px-3 bg-green-700 rounded-md`}
+          onPress={() => {
+            navigation.navigate("Main");
+          }}
         >
           <Text style={tw`text-white`}>
             Find your properties using Premises Number
@@ -111,7 +114,7 @@ const Menu = () => {
                         "https://www.wbhidcoltd.com/upload_file/newsroom/" +
                         item.logo_img,
                     }}
-                    style={tw`m-auto w-40 h-10 bg-white mb-2.3 bg-contain`}
+                    style={tw`m-auto w-40 h-10 bg-white mb-2.3`}
                   />
                 </View>
                 <View style={{ height: 200 }}>

@@ -16,11 +16,11 @@ const sendOTP = async (to, otp, from) => {
   try {
     // Send the OTP using Twilio's REST API
     const authorizationHeader = `Basic ${encode(
-      "ACc5978fad8627c82a3d68370ab6675926:3ef71e923308d1036b61557d22269110"
+      "AC97433d1fd8408ae83b7e0bfa8875cd78:027a3ac9c8d1588227cb3b4a1c118118"
     )}`;
 
     const response = await fetch(
-      `https://api.twilio.com/2010-04-01/Accounts/ACc5978fad8627c82a3d68370ab6675926/Messages.json`,
+      `https://api.twilio.com/2010-04-01/Accounts/AC97433d1fd8408ae83b7e0bfa8875cd78/Messages.json`,
       {
         method: "POST",
         headers: {
@@ -66,7 +66,7 @@ const Login = () => {
     console.log(otpValue);
     const userPhoneNumber = "+91" + user; // Replace with the user's phone number
 
-    const fromPhoneNumber = "+15124026795";
+    const fromPhoneNumber = "+15596440016";
 
     const success = await sendOTP(userPhoneNumber, otpValue, fromPhoneNumber);
 
@@ -87,14 +87,21 @@ const Login = () => {
         style={styles.background}
       >
         <View>
-          <TextInput
-            style={tw`text-xl bg-white text-black pl-4 pr-17 py-3 my-2`}
-            placeholder="Enter Mobile Number"
-            keyboardType="phone-pad"
-            onChangeText={(mobile) => {
-              setUser(mobile);
-            }}
-          />
+          <View style={tw`flex flex-row bg-white mb-2`}>
+            <Text
+              style={tw`text-lg  text-black p-3 py-1 my-2 text-center border-r`}
+            >
+              +91
+            </Text>
+            <TextInput
+              style={tw`text-lg bg-white text-black pl-4 pr-4 py-1 my-2`}
+              placeholder="Enter 10-digit Mobile Number"
+              keyboardType="phone-pad"
+              onChangeText={(mobile) => {
+                setUser(mobile);
+              }}
+            />
+          </View>
 
           <View>
             {/* <TextInput
@@ -106,10 +113,10 @@ const Login = () => {
             /> */}
 
             <TouchableOpacity
-              style={tw`bg-cyan-700 p-3 rounded-md`}
+              style={tw`bg-cyan-600 p-3 rounded-md`}
               onPress={handleLogin}
             >
-              <Text style={tw`text-xl text-center text-white`}>Get OTP</Text>
+              <Text style={tw`text-lg text-center text-white`}>Get OTP</Text>
             </TouchableOpacity>
           </View>
         </View>

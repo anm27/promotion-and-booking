@@ -3,9 +3,7 @@
     "name": "promotion-and-booking",
     "slug": "promotion-and-booking",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "eas": {
         "projectId": "fb1d0042-4739-4b0e-920b-fe91621d4e08"

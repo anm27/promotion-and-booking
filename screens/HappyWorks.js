@@ -21,10 +21,13 @@ import {
   Alert,
   StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const duration = 500;
 
 const HappyWorks = () => {
+  const navigation = useNavigation();
+
   const defaultAnim = useSharedValue(5);
   const changedAnim = useSharedValue(20);
 
@@ -61,10 +64,13 @@ const HappyWorks = () => {
   const [formattedDate, setFormattedDate] = useState(
     new Date() // Initialize with the current date and time
   );
+  console.log("Type of formattedDate : ", typeof formattedDate.toISOString());
 
   const [formattedDateTo, setFormattedDateTo] = useState(
     new Date() // Initialize with the current date and time
   );
+
+  console.log("Type of formattedDateTo : ", typeof formattedDateTo.toString());
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -158,6 +164,7 @@ const HappyWorks = () => {
   const minutes = timeParts[1];
 
   let formattedUserCheckinBookingTime = hours + ":" + minutes + " " + amPmPart;
+  console.log("Is String: ", typeof formattedUserCheckinBookingTime);
 
   const userCheckoutTime = checkOutTime;
   const partsCheckoutTime = userCheckoutTime.split(" ");
@@ -183,6 +190,8 @@ const HappyWorks = () => {
   const checkoutDateObject = new Date(year, month, day);
 
   console.log("Usable Check-out: ", checkoutDateObject);
+
+  console.log("Type of Usable Check-out: ", typeof checkoutDateObject);
 
   const checkInDateString = checkInDate;
   const partsCheckin = checkInDateString.split("/");
@@ -251,10 +260,10 @@ const HappyWorks = () => {
   const { totalPrice, numberOfDays } = calculateTotalPrice();
 
   // Function to send data to the PHP script
-  const sendDataToPhpScript = async () => {
+  const checkAvailability = async () => {
     try {
       const response = await fetch(
-        "https://www.wbhidcoltd.com/insert_into_hw_bookings.php",
+        "https://www.wbhidcoltd.com/check_availability_happy_works_room.php",
         {
           method: "POST",
           headers: {
@@ -262,8 +271,8 @@ const HappyWorks = () => {
           },
           body: JSON.stringify({
             property: propertyLocation, // Change this to your property data
-            date_from: formattedDate.toISOString(),
-            date_to: formattedDateTo.toISOString(),
+            date_from: checkInDate,
+            date_to: checkOutDate,
             meet_in_time: checkInTime,
             meet_out_time: checkOutTime,
             total_price: totalPrice, // Assuming you have calculated totalPrice
@@ -278,8 +287,24 @@ const HappyWorks = () => {
       console.log("PHP Script Response:", data);
 
       if (data.success) {
-        console.log("Data sent successfully:", data.message);
-        Alert.alert("Booking Confirmed!", data.message);
+        // console.log("Data sent successfully:", data.message);
+        Alert.alert("Congratulations!", data.message, [
+          {
+            text: "OK",
+            onPress: () => {
+              // Navigate to the payment page with booking data
+              navigation.navigate("PaymentPage", {
+                propertyLocation,
+                checkInDate,
+                checkOutDate,
+                checkInTime,
+                checkOutTime,
+                totalPrice,
+                numberOfDays,
+              });
+            },
+          },
+        ]);
       } else {
         // console.error("Error sending data:", data.message);
         Alert.alert("Oops!", data.message);
@@ -288,6 +313,30 @@ const HappyWorks = () => {
       console.error("Error:", error);
     }
   };
+
+  // const sendDataToPhpScript = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://www.wbhidcoltd.com/check_availability_happy_works_room.php"
+  //     );
+
+  //     console.log("HTTP Response Status:", response.status);
+
+  //     const data = await response.json();
+
+  //     console.log("PHP Script Response:", data);
+
+  //     if (data.success) {
+  //       console.log("Data sent successfully:", data.message);
+  //       Alert.alert("Booking available. Proceed to payment!");
+  //     } else {
+  //       // console.error("Error sending data:", data.message);
+  //       Alert.alert("Oops!", data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -424,7 +473,7 @@ const HappyWorks = () => {
                 <View style={tw`bg-cyan-700 p-2`}>
                   <TouchableOpacity onPress={showDateTimePicker}>
                     <Text style={tw`text-white`}>
-                      {formattedUserCheckinBookingTime.toLocaleString()}
+                      {formattedUserCheckinBookingTime}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -438,14 +487,14 @@ const HappyWorks = () => {
                 <View style={tw`bg-cyan-700 p-2`}>
                   <TouchableOpacity onPress={showCheckoutDateTimePicker}>
                     <Text style={tw`text-white`}>
-                      {formattedUserCheckOutBookingTime.toLocaleString()}
+                      {formattedUserCheckOutBookingTime}
                     </Text>
                   </TouchableOpacity>
                 </View>
               </View>
               <TouchableOpacity
                 style={tw`bg-green-700 px-3 py-3 m-2 mx-2.8 rounded-`}
-                onPress={sendDataToPhpScript}
+                onPress={checkAvailability}
               >
                 <Text style={tw`text-center text-lg text-white font-bold`}>
                   Check availability!

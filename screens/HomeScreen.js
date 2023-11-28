@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Platform, StyleSheet, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import tw from "twrnc"; // Assuming you have this module
+import tw from "twrnc";
 import Header from "../components/Header";
 import Categories from "../components/Categories";
 import Featured from "../components/Featured";
